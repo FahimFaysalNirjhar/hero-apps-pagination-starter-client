@@ -3,7 +3,7 @@ import { Link, useLoaderData } from "react-router";
 import AppCard from "./AppCard";
 
 const OurApps = () => {
-  const apps = useLoaderData();
+  const { apps } = useLoaderData();
 
   return (
     <div>
@@ -22,14 +22,12 @@ const OurApps = () => {
         ))}
       </div>
       <div className="text-center">
-
         <Link
           to="/apps"
           className="btn btn-wide  text-white hover:shadow-xl bg-gradient-to-tl to-[#632EE3] from-[#9F62F2] "
         >
           Show All
         </Link>
-        
       </div>
     </div>
   );

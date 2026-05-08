@@ -10,11 +10,13 @@ const AllAppsPage = () => {
   const [totalApps, setTotalApps] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
-  const limit = 10;
+  const [sort, setSort] = useState("size");
+  const [order, setOrder] = useState("");
+  const limit = 12;
 
   useEffect(() => {
     fetch(
-      `http://localhost:5000/apps?limit=${limit}&skip=${currentPage * limit}`,
+      `http://localhost:5000/apps?limit=${limit}&skip=${currentPage * limit}&sort=${sort}&order=${order}`,
     )
       .then((res) => res.json())
       .then((data) => {
@@ -24,7 +26,13 @@ const AllAppsPage = () => {
         setTotalPage(page);
         console.log(page);
       });
-  }, [currentPage]);
+  }, [currentPage, sort, order]);
+
+  const handleSelect = (e) => {
+    console.log(e.target.value);
+    setSort(e.target.value.split("-")[0]);
+    setOrder(e.target.value.split("-")[1]);
+  };
 
   return (
     <div>
@@ -70,7 +78,7 @@ const AllAppsPage = () => {
         </form>
 
         <div className="">
-          <select className="select bg-white">
+          <select onChange={handleSelect} className="select bg-white">
             <option selected disabled={true}>
               Sort by <span className="text-xs">R / S / D</span>
             </option>
@@ -100,14 +108,30 @@ const AllAppsPage = () => {
         </div>
       </>
       <div className="flex flex-wrap my-10 justify-center gap-2">
+        {currentPage > 0 && (
+          <button
+            className="btn"
+            onClick={() => setCurrentPage(currentPage - 1)}
+          >
+            Prev
+          </button>
+        )}
         {[...Array(totalPage).keys()].map((i) => (
           <button
             onClick={() => setCurrentPage(i)}
             className={`btn ${i === currentPage && "btn-primary"}`}
           >
-            {i}
+            {i + 1}
           </button>
         ))}
+        {currentPage < totalPage - 1 && (
+          <button
+            className="btn"
+            onClick={() => setCurrentPage(currentPage + 1)}
+          >
+            Next
+          </button>
+        )}
       </div>
     </div>
   );
