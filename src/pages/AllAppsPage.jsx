@@ -17,7 +17,7 @@ const AllAppsPage = () => {
 
   useEffect(() => {
     fetch(
-      `http://localhost:5000/apps?limit=${limit}&skip=${currentPage * limit}&sort=${sort}&order=${order}&search=${search}`,
+      `https://hero-apps-pagination-starter-server-nine.vercel.app/apps?limit=${limit}&skip=${currentPage * limit}&sort=${sort}&order=${order}&search=${search}`,
     )
       .then((res) => res.json())
       .then((data) => {
